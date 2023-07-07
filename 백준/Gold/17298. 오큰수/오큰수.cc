@@ -2,35 +2,38 @@
 using namespace std;
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 
-	int N;
-	cin >> N;
-
-	int* arr = new int[N];
-	int* ans = new int[N];
+	int N; cin >> N;
+	vector<int> v(N);
+	vector<int> a(N);
+	
 	for (int i = 0; i < N; i++) {
-		cin >> arr[i];
+		int x; cin >> x;
+		v[i] = x;
 	}
 
-	stack<int> S;
+	stack<int> s;
+
 	for (int i = N - 1; i >= 0; i--) {
-		while (!S.empty() && S.top() <= arr[i]) {
-			S.pop();
+		while (!s.empty() && s.top() <= v[i]) {
+			s.pop();
 		}
 
-		if (S.empty()) {
-			ans[i] = -1;
+		if (s.empty()) {
+			a[i] = -1;
 		}
+
 		else {
-			ans[i] = S.top();
+			a[i] = s.top();
 		}
 
-		S.push(arr[i]);
+		s.push(v[i]);
 	}
 
 	for (int i = 0; i < N; i++) {
-		cout << ans[i] << ' ';
+		cout << a[i] << " ";
 	}
 }
