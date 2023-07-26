@@ -24,7 +24,6 @@ int main() {
 	cout.tie(NULL);
 
 	int T; cin >> T;
-	f(10);
 	while (T--) {
 		int n; cin >> n;
 		cout << f(n) << '\n';
