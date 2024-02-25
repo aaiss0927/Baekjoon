@@ -1,33 +1,21 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+    string str;
+    getline(cin, str);
 
-	string S;
-	getline(cin, S);
+    for (int i = 0; i < str.length(); i++) {
+        if (isupper(str[i])) {
+            str[i] = ((str[i] - 'A') + 13) % 26 + 'A';
+        }
 
-	int len = S.length();
-	for (int i = 0; i < len; i++) {
-		if (isalpha(S[i])) {
-			if (isupper(S[i])) {
-				if (S[i] <= 77) {
-					S[i] = char(int(S[i]) + 13);
-				}
-				else {
-					S[i] = char(int(S[i]) - 13);
-				}
-			}
-			else {
-				if (S[i] <= 109) {
-					S[i] = char(int(S[i]) + 13);
-				}
-				else {
-					S[i] = char(int(S[i]) - 13);
-				}
-			}
-		}
-	}
-	cout << S;
+        else if (islower(str[i])) {
+            str[i] = ((str[i] - 'a') + 13) % 26 + 'a';
+        }
+    }
+
+    cout << str;
 }
