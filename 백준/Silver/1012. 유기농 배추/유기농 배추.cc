@@ -3,63 +3,75 @@
 #include <queue>
 using namespace std;
 
-int M, N, K;
-vector<vector<int>> board;
-vector<vector<bool>> visited;
-int dx[4] = { 1, 0, -1, 0 };
-int dy[4] = { 0, 1, 0, -1 };
+int n, m, k;
+int grid[50][50];
+bool visited[50][50];
 int cnt;
 
-void dfs(pair<int, int> p) {
-	visited[p.first][p.second] = true;
+int dx[4] = { -1, 0, 1, 0 };
+int dy[4] = { 0, -1, 0, 1 };
+queue<pair<int, int>> q;
 
-	for (int i = 0; i < 4; i++) {
-		int x = p.second + dx[i];
-		int y = p.first + dy[i];
+bool in_range(int x, int y) {
+	return (x >= 0 && x < n&& y >= 0 && y < m);
+}
 
-		if (x < 0 || x >= M || y < 0 || y >= N) {
-			continue;
+bool can_go(int x, int y) {
+	return (in_range(x, y) && !visited[x][y] && grid[x][y] == 1);
+}
+
+void BFS() {
+	while (!q.empty()) {
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+
+		for (int i = 0; i < 4; i++) {
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+
+			if (can_go(nx, ny)) {
+				visited[nx][ny] = true;
+				q.push({ nx, ny });
+			}
 		}
-
-		if (visited[y][x]) {
-			continue;
-		}
-
-		if (board[y][x] == 0) {
-			continue;
-		}
-
-		dfs({ y, x });
 	}
 }
 
+
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+	cin.tie(0);
+	ios::sync_with_stdio(0);
 
 	int T; cin >> T;
+
 	while (T--) {
+		cin >> m >> n >> k;
+
 		cnt = 0;
-		cin >> M >> N >> K;
 
-		board = vector<vector<int>>(N, vector<int>(M, 0));
-		visited = vector<vector<bool>>(N, vector<bool>(M, false));
-
-		for (int i = 0; i < K; i++) {
-			int x, y;
-			cin >> x >> y;
-			board[y][x] = 1;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				grid[i][j] = 0;
+				visited[i][j] = false;
+			}
 		}
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				if (board[i][j] == 1 && !visited[i][j]) {
-					dfs({ i, j });
+		while (k--) {
+			int x, y; cin >> x >> y;
+			grid[y][x] = 1;
+		}
+
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (grid[i][j] == 1 && !visited[i][j]) {
+					visited[i][j] = true;
+					q.push({ i, j });
+					BFS();
 					cnt++;
 				}
 			}
-		}
+		}		
 
 		cout << cnt << '\n';
 	}
