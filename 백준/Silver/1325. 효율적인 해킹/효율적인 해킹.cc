@@ -1,52 +1,58 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 using namespace std;
 
-int N, M;
+int n, m;
 vector<int> graph[10001];
-vector<bool> visited;
+bool visited[10001];
+int temp[10001];
+int cnt;
+int ans;
 
-void dfs(int x, int& cnt) {
-	visited[x] = true;
-	for (auto i : graph[x]) {
-		if (!visited[i]) {
+void setup() {
+	cnt = 1;
+
+	for (int i = 0; i < 10001; i++) {
+		visited[i] = false;
+	}
+}
+
+void dfs(int num) {
+	for (int i = 0; i < graph[num].size(); i++) {
+		if (!visited[graph[num][i]]) {
 			cnt++;
-			dfs(i, cnt);
+			visited[graph[num][i]] = true;
+			dfs(graph[num][i]);
 		}
 	}
 }
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	
-	cin >> N >> M;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
 
-	for (int i = 0; i < M; i++) {
-		int u, v;
-		cin >> u >> v;
+	cin >> n >> m;
 
-		graph[v].push_back(u);
+	while (m--) {
+		int first, second; cin >> first >> second;
+
+		graph[second].push_back(first);
 	}
 
-	vector<int> cnt(N + 1, 0);
-	for (int i = 1; i <= N; i++) {
-		visited = vector<bool>(N + 1, false);
-		dfs(i, cnt[i]);
+	ans = 0;
+
+	for (int i = 1; i <= n; i++) {
+		setup();
+		visited[i] = true;
+		dfs(i);
+		temp[i] = cnt;
+
+		ans = max(ans, cnt);
 	}
 
-	int max = cnt[1];
-	for (int i = 2; i <= N; i++) {
-		if (cnt[i] > max) {
-			max = cnt[i];
-		}
-	}
-
-	for (int i = 1; i <= N; i++) {
-		if (cnt[i] == max) {
-			cout << i << " ";
+	for (int i = 1; i <= n; i++) {
+		if (temp[i] == ans) {
+			cout << i << ' ';
 		}
 	}
 }
