@@ -1,19 +1,23 @@
 #include <iostream>
 using namespace std;
 
-void sort_hanoi(int a, int b, int n) {
+void althm_hanoi(int n, int a, int b) {
 	if (n == 1) {
 		cout << a << ' ' << b << '\n';
 		return;
 	}
 
-	sort_hanoi(a, 6 - a - b, n - 1);
+	althm_hanoi(n - 1, a, 6 - a - b);
 	cout << a << ' ' << b << '\n';
-	sort_hanoi(6 - a - b, b, n - 1);
+	althm_hanoi(n - 1, 6 - a - b, b);
 }
 
 int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
 	int n; cin >> n;
 	cout << (1 << n) - 1 << '\n';
-	sort_hanoi(1, 3, n);
+	althm_hanoi(n, 1, 3);
 }
