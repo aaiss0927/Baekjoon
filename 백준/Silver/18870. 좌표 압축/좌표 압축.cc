@@ -1,22 +1,27 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
+
+int arr[1000000];
+vector<int> uni;
 
 int main() {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
+	cout.tie(0);
 
-	int N;
-	cin >> N;
+	int n; cin >> n;
 
-	vector<int> array(N);
-	for (int i = 0; i < N; i++) {
-		cin >> array[i];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+		uni.push_back(arr[i]);
 	}
-	vector<int> array_(array);
-	sort(array_.begin(), array_.end());
-	array_.erase(unique(array_.begin(), array_.end()), array_.end());
-	for (int i = 0; i < N; i++) {
-		auto it = lower_bound(array_.begin(), array_.end(), array[i]);
-		cout << it - array_.begin() << ' ';
+
+	sort(uni.begin(), uni.end());
+	uni.erase(unique(uni.begin(), uni.end()), uni.end());
+
+	for (int i = 0; i < n; i++) {
+		cout << lower_bound(uni.begin(), uni.end(), arr[i]) - uni.begin() << ' ';
 	}
 }
