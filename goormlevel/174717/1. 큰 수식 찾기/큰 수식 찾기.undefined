@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+
+exp = input().split()
+A = exp[0]
+B = exp[1]
+
+eval_A = eval(A)
+eval_B = eval(B)
+
+if eval_A > eval_B:
+	print(eval_A)
+else:
+	print(eval_B)
