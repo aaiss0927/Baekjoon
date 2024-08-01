@@ -1,0 +1,5 @@
+inp = input()
+vars = inp.split()
+a = int(vars[0])
+b = int(vars[1])
+print(a * b)
