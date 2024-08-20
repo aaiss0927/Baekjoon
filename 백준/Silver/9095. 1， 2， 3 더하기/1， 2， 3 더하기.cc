@@ -2,30 +2,24 @@
 #include <vector>
 using namespace std;
 
-vector<int> dp(11);
-
-int f(int n) {
-	if (n == 1) {
-		return dp[1] = 1;
-	}
-	if (n == 2) {
-		return dp[2] = 2;
-	}
-	if (n == 3) {
-		return dp[3] = 4;
-	}
-	dp[n] = f(n - 1) + f(n - 2) + f(n - 3);
-	return dp[n];
-}
+int n;
+vector<int> dp;
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
 	int T; cin >> T;
+
+	dp = vector<int>(11);
+
+	dp[1] = 1;
+	dp[2] = 2;
+	dp[3] = 4;
+
+	for (int i = 4; i < 11; i++) {
+		dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+	}
+
 	while (T--) {
-		int n; cin >> n;
-		cout << f(n) << '\n';
+		cin >> n;
+		cout << dp[n] << '\n';
 	}
 }
