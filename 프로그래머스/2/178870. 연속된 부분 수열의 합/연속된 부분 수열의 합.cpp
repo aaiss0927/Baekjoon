@@ -12,12 +12,7 @@ vector<int> solution(vector<int> sequence, int k) {
     for (int i = 1; i < sequence.size(); i++)
         prefix_sum.push_back(prefix_sum.back() + sequence[i]);
     
-    for (int i = 0; i < prefix_sum.size(); i++) {
-        if (sequence[i] == k) {
-            answer = {i, i};
-            break;
-        }
-        
+    for (int i = 0; i < prefix_sum.size(); i++) {       
         int idx = lower_bound(prefix_sum.begin() + i + 1, prefix_sum.end(), prefix_sum[i] + k) - prefix_sum.begin();
         
         if (idx < prefix_sum.size() && prefix_sum[i] + k == prefix_sum[idx])
