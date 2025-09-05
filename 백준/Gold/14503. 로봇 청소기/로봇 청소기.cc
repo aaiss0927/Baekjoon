@@ -3,7 +3,6 @@ using namespace std;
 
 int n, m;
 int grid[50][50];
-// 0 청소x 1 청소o
 
 int dx[4] = { -1, 0, 1, 0 };
 int dy[4] = { 0, 1, 0, -1 };
@@ -33,7 +32,6 @@ int main() {
 	
 	cin >> n >> m;
 	int r, c, d; cin >> r >> c >> d;
-	// d... 0위 1오 2 아 3왼
 	int cnt = 0;
 
 	for (int i = 0; i < n; i++)
@@ -49,18 +47,15 @@ int main() {
 		if (is_clear(r, c)) {
 			if (is_range(r - dx[d], c - dy[d]) && grid[r - dx[d]][c - dy[d]] != 1) {
 				r -= dx[d]; c -= dy[d];
-				continue;
 			}
-
 			else
 				break;
 		}
-
 		else {
-			d = (d + 3) % 4;
-			while (grid[r + dx[d]][c + dy[d]] != 0)
+			do {
 				d = (d + 3) % 4;
-
+			} while (grid[r + dx[d]][c + dy[d]] != 0);
+				
 			r += dx[d]; c += dy[d];
 		}
 	}
