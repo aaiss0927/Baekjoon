@@ -1,10 +1,7 @@
 def solution(s):
     answer = ''
     
-    v = s.split()
-    v = [int(i) for i in v]
-    v.sort()
-    
+    v = list(map(int, s.split()))    
     answer += str(min(v)) + ' ' + str(max(v))
     
     return answer
