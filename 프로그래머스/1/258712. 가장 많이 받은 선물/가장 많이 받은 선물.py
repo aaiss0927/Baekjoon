@@ -1,65 +1,34 @@
-from collections import defaultdict
+# hist : 2차원 배열
+# name_to_idx : {name : i for i, name in enumerate(friends)}
 
-# 다음 달에 가장 선물을 많이 받은 사람이 받은 선물의 수
-
-# 1. 두 사람이 선물 주고받은 기록이 있는 경우
-# hist["muzi"]["ryan"] = 3
-# -- 더 많이 준 사람이 하나 받기
-
-# 2. 기록 없거나 주고받은 수가 같은 경우
-# score["muzi"] = 3
-# -- 선물 지수가 더 큰 사람이 받기
-
-# 3. else) continue
-
-# 모든 pair에 대해 1, 2, 3에 따라 처리
-# gifts "A B" : A -> B 선물 
-# dict에 선물 받은 기록 저장: d = {"muzi" : ["ryan", "ryan", "ryan", "frodo", "neo"]}
+# hist[giver][taker]
+#        muzi ryan frodo neo  
+# muzi    0    0
+# ryan    
+# frodo
+# neo
 
 def solution(friends, gifts):
-    answer = 0
-    hist = defaultdict(list)
-    hist_num = defaultdict(dict)
-    score = {}
-    next_get = {}
+    n = len(friends)
+    hist = [[0] * n for _ in range(n)]   # hist[giver][taker]
+    score = [0] * n
+    next_get = [0] * n
+    name_to_idx = {name : i for i, name in enumerate(friends)}
     
     for g in gifts:
-        a, b = g.split()
-        hist[b].append(a)
+        giver, taker = g.split()
+        idx_g, idx_t = name_to_idx[giver], name_to_idx[taker]
+        
+        hist[idx_g][idx_t] += 1
+        score[idx_g] += 1
+        score[idx_t] -= 1
         
     for i in range(len(friends)):
-        b = friends[i]
-        
-        for j in range(len(friends)):
-            if i == j: continue
-            
-            a = friends[j]
-            hist_num[b][a] = hist[b].count(a)
-
-    for i in range(len(friends)):
-        b = friends[i]
-        score[b] = -len(hist[b])
-        next_get[b] = 0
-        
-        for j in range(len(friends)):
-            if i == j: continue
-            
-            a = friends[j]
-            score[b] += hist_num[a][b]
-        
-    for i in range(len(friends)):
-        for j in range(i + 1, len(friends)):
-            b, a = friends[i], friends[j]
-            
-            if ((hist_num[b][a] > 0) or (hist_num[a][b] > 0)) and (hist_num[b][a] != hist_num[a][b]):
-                if hist_num[b][a] > hist_num[a][b]: next_get[a] += 1
-                else: next_get[b] += 1
-            
-            elif ((hist_num[b][a] == 0) and (hist_num[a][b] == 0)) or (hist_num[b][a] == hist_num[a][b]):
-                if score[a] > score[b]: next_get[a] += 1
-                elif score[a] < score[b]: next_get[b] += 1
-    
-    for v in next_get.values():
-        if v > answer: answer = v
-            
-    return answer
+        for j in range(i + 1, len(friends)):            
+            if hist[i][j] > hist[j][i]: next_get[i] += 1
+            elif hist[i][j] < hist[j][i]: next_get[j] += 1
+            else:
+                if score[i] > score[j]: next_get[i] += 1
+                elif score[i] < score[j]: next_get[j] += 1
+                
+    return max(next_get)
