@@ -2,31 +2,27 @@
 #include <map>
 using namespace std;
 
+map<string, int> m;
+
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
+	cin.tie(0);
+	ios::sync_with_stdio(0);
 
-	map<string, int> m;
-	int N; cin >> N;
-	string tt;
+	int n; cin >> n;
 
-	while (N--) {
-		cin >> tt;
-		if (m.find(tt) == m.end()) {
-			m.insert(pair<string, int>(tt, 1));
-		}
-		else {
-			m[tt]++;
+	for (int i = 0; i < n; i++) {
+		string book; cin >> book;
+		m[book]++;
+	}
+
+	int max_count = 0;
+	string max_book = "";
+	for (auto it = m.begin(); it != m.end(); it++) {
+		if ((*it).second > max_count) {
+			max_count = (*it).second;
+			max_book = (*it).first;
 		}
 	}
 
-	int max = 0;
-	string max_tt = "";
-	for (map<string, int>::iterator it = m.begin(); it != m.end(); it++) {
-		if ((*it).second > max) {
-			max = (*it).second;
-			max_tt = (*it).first;
-		}
-	}
-	cout << max_tt;
+	cout << max_book;
 }
