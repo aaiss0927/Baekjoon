@@ -3,24 +3,27 @@
 #include <algorithm>
 using namespace std;
 
+vector<int> v;
+
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    
-    int n; cin >> n;
-    vector<int> v(n);
+	cin.tie(0);
+	ios::sync_with_stdio(0);
 
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
+	int n; cin >> n;
 
-    sort(v.begin(), v.end());
+	for (int i = 0; i < n; i++) {
+		int w; cin >> w;
+		v.push_back(w);
+	}
 
-    int maxi = -1;
+	sort(v.rbegin(), v.rend());
+	int max_weight = 0;
 
-    for (int i = 0; i < n; i++) {
-        if (maxi < v[i] * (n - i))
-            maxi = v[i] * (n - i);
-    }
+	for (int i = 0; i < n; i++) {
+		int weight = (i + 1) * v[i];
 
-    cout << maxi;
+		if (weight > max_weight) max_weight = weight;
+	}
+
+	cout << max_weight;
 }
