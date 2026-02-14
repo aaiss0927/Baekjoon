@@ -1,47 +1,36 @@
 #include <iostream>
 using namespace std;
 
-int h, w;
-char grid[100][100];
-int ans[100][100];
+int answer[100][100];
 
 int main() {
-	cin.tie(0);
-	ios::sync_with_stdio(0);
+	int row_size, col_size;
+	cin >> row_size >> col_size;
 
-	cin >> h >> w;
+	for (int i = 0; i < row_size; i++) {
+		string row; 
+		cin >> row;
 
-	for (int i = 0; i < h; i++) {
-		string str; cin >> str;
+		int distance_from_cloud = -1;
+		bool cloud_detected = false;
 
-		for (int j = 0; j < w; j++) {
-			grid[i][j] = str[j];
-			ans[i][j] = -1;
+		for (int j = 0; j < col_size; j++) {
+			if (row[j] == 'c') {
+				distance_from_cloud = 0;
+				cloud_detected = true;
+			}
+
+			else if (cloud_detected) distance_from_cloud++;
+
+			answer[i][j] = distance_from_cloud;
 		}
 	}
 
-	for (int i = 0; i < h; i++) {
-		bool is_cloud = false;
-		int t = 0;
-
-		for (int j = 0; j < w; j++) {
-			if (grid[i][j] == 'c') {
-				is_cloud = true;
-				t = 0;
-			}
-
-			if (is_cloud) {
-				ans[i][j] = t;
-			}
-
-			t++;
+	for (int i = 0; i < row_size; i++) {
+		for (int j = 0; j < col_size; j++) {
+			cout << answer[i][j] << ' ';
 		}
-	}
 
-	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
-			cout << ans[i][j] << ' ';
-		}
 		cout << '\n';
 	}
 }
