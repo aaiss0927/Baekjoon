@@ -2,23 +2,26 @@
 #include <queue>
 using namespace std;
 
+int n;
+queue<int> q;
+
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
+	cin >> n;
 
-    int n; cin >> n;
-    queue<int> q;
+	for (int i = 1; i <= n; i++)
+		q.push(i);
 
-    for (int i = 1; i <= n; i++)
-        q.push(i);
+	while (1) {
+		if (q.size() == 1) {
+			cout << q.front();
+			break;
+		}
 
-    while (q.size() != 1) {
-        cout << q.front() << ' ';
-        q.pop();
-        int temp = q.front();
-        q.pop(); q.push(temp);
-    }
+		cout << q.front() << ' ';
+		q.pop();		
 
-    cout << q.front();
+		int top_card = q.front();
+		q.pop();
+		q.push(top_card);
+	}
 }
