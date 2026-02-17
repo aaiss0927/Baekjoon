@@ -1,25 +1,19 @@
 #include <iostream>
-#include <set>
-
+#include <map>
 using namespace std;
 
 int main() {
-	set<string> s;
-	int N; cin >> N;
-	string name, cmd;
-	
-	while (N--) {
-		cin >> name >> cmd;
-		if (cmd == "enter") {
-			s.insert(name);
-		}
-		else if (cmd == "leave") {
-			s.erase(name);
-		}
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+
+	int n; cin >> n;
+	map<string, string> m;
+
+	for (int i = 0; i < n; i++) {
+		string name, state; cin >> name >> state;
+		m[name] = state;
 	}
 
-	set<string>::reverse_iterator r_it;
-	for (r_it = s.rbegin(); r_it != s.rend(); r_it++) {
-		cout << *r_it << '\n';
-	}
+	for (auto it = m.rbegin(); it != m.rend(); it++)
+		if ((*it).second == "enter") cout << (*it).first << '\n';
 }
