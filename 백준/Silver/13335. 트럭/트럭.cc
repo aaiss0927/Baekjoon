@@ -1,50 +1,44 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <queue>
 using namespace std;
 
+int n, w, L;
+int wsum, t;
+queue<int> bridge;
+queue<int> trucks;
+
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+	cin.tie(0);
+	ios::sync_with_stdio(0);
 
-    queue<int> t;
-    int n, w, L;
-    cin >> n >> w >> L;
+	cin >> n >> w >> L;
+	wsum = t = 0;
 
-    for (int i = 0; i < n; i++) {
-        int x; cin >> x;
-        t.push(x);
-    }
+	for (int i = 0; i < n; i++) {
+		int a; cin >> a;
+		trucks.push(a);
+	}
 
-    queue<int> q;
-    int curW = 0;
-    int count = 0;
+	for (int i = 0; i < w; i++)
+		bridge.push(0);
 
-    for (int i = 0; i < w; i++) {
-        q.push(-1);
-    }
+	while (!bridge.empty()) {
+		wsum -= bridge.front();
+		bridge.pop();
 
-    int num = n * w + 1;
-    while (!t.empty() && num--) {
-        if (q.front() != -1) {
-            curW -= q.front();
-        }
+		if (!trucks.empty()) {
+			if (wsum + trucks.front() <= L) {
+				bridge.push(trucks.front());
+				wsum += trucks.front();
+				trucks.pop();
+			}
 
-        if (curW + t.front() > L) {
-            
-            q.pop();
-            q.push(-1);
-            count++;
-        }
+			else
+				bridge.push(0);
+		}
 
-        else {
-            q.pop();
-            q.push(t.front());
-            curW += t.front();
-            t.pop();
-            count++;
-        }
-    }
+		t++;
+	}
 
-    count += w;
-    cout << count;
+	cout << t;
 }
