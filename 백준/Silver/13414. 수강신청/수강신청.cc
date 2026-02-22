@@ -1,10 +1,10 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 int k, l;
-map<string, int> m;
-map<int, string> m_rev;
+unordered_map<string, int> m;
+unordered_map<int, string> m_rev;
 
 int main() {
     cin.tie(0);
