@@ -1,65 +1,30 @@
 #include <iostream>
-#include <cmath>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	long long n, m;
-	cin >> n >> m;
-
-	if (m > (n / 2)) {
-		m = n - m;
-	}
-
-	if (m == 0) {
-		cout << 0;
-	}
-
-	else {
-		unsigned long nm_cnt_2, nm_cnt_5, dn_cnt_2, dn_cnt_5;
-		nm_cnt_2 = nm_cnt_5 = dn_cnt_2 = dn_cnt_5 = 0;
-		unsigned long div;
-
-		div = 2;
-		while (div <= n) {
-			nm_cnt_2 += (n / div);
-			div *= 2;
-		}
-		div = 5;
-		while (div <= n) {
-			nm_cnt_5 += (n / div);
-			div *= 5;
-		}
-
-		div = 2;
-		while (div <= m) {
-			dn_cnt_2 += (m / div);
-			div *= 2;
-		}
-		div = 5;
-		while (div <= m) {
-			dn_cnt_5 += (m / div);
-			div *= 5;
-		}
-
-		div = 2;
-		while (div <= (n - m)) {
-			dn_cnt_2 += ((n - m) / div);
-			div *= 2;
-		}
-		div = 5;
-		while (div <= n - m) {
-			dn_cnt_5 += ((n - m) / div);
-			div *= 5;
-		}
-
-		int cnt_2 = nm_cnt_2 - dn_cnt_2;
-		int cnt_5 = nm_cnt_5 - dn_cnt_5;
-
-		int cnt = min(cnt_2, cnt_5);
-		cout << cnt;
-	}
+long long get_cnt(long long n, long long p) {
+    long long cnt = 0;
+    
+    for (long long i = p; i <= n; i *= p) {
+        if (i > n) break;
+        
+        cnt += (n / i);
+    }
+    
+    return cnt;
 }
+
+int main() {
+    cin.tie(0);
+    ios::sync_with_stdio(0);
+    
+    long long n, m; cin >> n >> m;
+    long long cnt_2 = get_cnt(n, 2) - get_cnt(m, 2) - get_cnt(n-m, 2);
+    long long cnt_5 = get_cnt(n, 5) - get_cnt(m, 5) - get_cnt(n-m, 5);
+    
+    cout << min(cnt_2, cnt_5);
+}
+
+// 25C12 = (25*24*23*22*,,,*14) / (12*11*,,,*1)
+// numer / denom 각각 2개수 5개수 구하기
