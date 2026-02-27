@@ -26,9 +26,9 @@ int main() {
     
     vector<vector<int>> C(n, vector<int>(k));
     
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < k; j++) {
-            for (int l = 0; l < m; l++)
+    for (int l = 0; l < m; l++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < k; j++)
                 C[i][j] += A[i][l] * B[l][j];
         }
     }
