@@ -1,30 +1,22 @@
 #include <iostream>
-#include <vector>
-#include <climits>
 using namespace std;
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-
     int n; cin >> n;
-    int coin[2] = { 2, 5 };
-    vector<int> dp(n + 1, 0);
-
-    for (int i = 1; i <= n; i++)
-        dp[i] = -1;
     
-    for (int i = 1; i <= n; i++) {
-        int min = INT_MAX;
+    int cnt_2, cnt_5;
+    cnt_2 = cnt_5 = 0;
+    
+    cnt_2 = n % 5;
+    if (cnt_2 % 2 == 1) cnt_2 = (cnt_2 + 5) / 2;
+    else cnt_2 /= 2;
 
-        for (int j = 0; j < 2; j++) {
-            if (i >= coin[j] && dp[i - coin[j]] != -1 && dp[i - coin[j]] < min)
-                min = dp[i - coin[j]];
-        }
-
-        if (min != INT_MAX)
-            dp[i] = min + 1;
+    cnt_5 = (n - 2 * cnt_2) / 5;
+    
+    if (cnt_2 < 0 || cnt_5 < 0) {
+        cout << -1;
+        return 0;
     }
-
-    cout << dp[n];
+    
+    cout << cnt_2 + cnt_5;
 }
