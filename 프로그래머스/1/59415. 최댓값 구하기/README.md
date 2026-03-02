@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2024년 02월 24일 01:12:11
+2026년 03월 02일 11:57:09
 
 ### 문제 설명
 
@@ -30,12 +30,12 @@ Empty
 </thead>
         <tbody><tr>
 <td>ANIMAL_ID</td>
-<td>VARCHAR(N)</td>
+<td>VARCHAR</td>
 <td>FALSE</td>
 </tr>
 <tr>
 <td>ANIMAL_TYPE</td>
-<td>VARCHAR(N)</td>
+<td>VARCHAR</td>
 <td>FALSE</td>
 </tr>
 <tr>
@@ -45,17 +45,17 @@ Empty
 </tr>
 <tr>
 <td>INTAKE_CONDITION</td>
-<td>VARCHAR(N)</td>
+<td>VARCHAR</td>
 <td>FALSE</td>
 </tr>
 <tr>
 <td>NAME</td>
-<td>VARCHAR(N)</td>
+<td>VARCHAR</td>
 <td>TRUE</td>
 </tr>
 <tr>
 <td>SEX_UPON_INTAKE</td>
-<td>VARCHAR(N)</td>
+<td>VARCHAR</td>
 <td>FALSE</td>
 </tr>
 </tbody>
