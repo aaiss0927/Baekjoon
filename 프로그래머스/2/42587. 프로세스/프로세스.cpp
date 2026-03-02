@@ -1,48 +1,43 @@
-#include <iostream>
 #include <string>
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <iostream>
 using namespace std;
-
-int get_max(queue<int> q) {
-    vector<int> temp;
-    
-    while (!q.empty()) {
-        temp.push_back(q.front());
-        q.pop();
-    }
-    
-    return *max_element(temp.begin(), temp.end());
-}
 
 int solution(vector<int> priorities, int location) {
     int answer = 0;
-    queue<int> q;
-    queue<int> idx;
+    int len = priorities.size();
+    queue<pair<int, int>> q;
     
-    for (int i = 0; i < priorities.size(); i++) {
-        q.push(priorities[i]);
-        idx.push(i);
-    }
+    for (int i = 0; i < len; i++)
+        q.push({priorities[i], i});
     
-    while (!q.empty()) {
-        int max_prior = get_max(q);
+    while (1) {
+        auto max_idx = max_element(priorities.begin(), priorities.end());
+        auto max_val = *max_idx;
         
-        if (q.front() < max_prior) {
-            q.push(q.front());
-            q.pop();
-            idx.push(idx.front());
-            idx.pop();
-        }
+        int val = q.front().first;
+        int idx = q.front().second; q.pop();
         
-        else {
-            q.pop();
+        if (val >= max_val) {
             answer++;
-            if (idx.front() == location) break;
-            idx.pop();
-        }
+            if (idx == location) break;
+            priorities.erase(max_idx);
+        } 
+        
+        else q.push({val, idx});
     }
     
     return answer;
 }
+
+
+// 1 1 9 1 1 1
+// 1 9 1 1 1 1
+// 9 1 1 1 1 1
+// 1 1 1 1 1
+// 1 1 1 1
+// 1 1 1
+// 1 1
+// 1
