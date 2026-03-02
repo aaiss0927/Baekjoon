@@ -1,32 +1,39 @@
-#include <iostream>
 #include <string>
 #include <vector>
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
-    vector<int> answer;
-    vector<int> term;
     int n = progresses.size();
+    vector<int> answer;
+    vector<int> rests;
     
-    for (int i = 0; i < n; i++)
-        term.push_back(ceil(double(100 - progresses[i]) / speeds[i]));
-    
-    int cur = term[0];
-    int cnt = 1;
-    
-    for (int i = 1; i < n; i++) {        
-        if (term[i] <= cur)
-            cnt++;
+    for (int i = 0; i < n; i++) {
+        double temp = (100 - progresses[i]) / double(speeds[i]);
+        int rest = (temp > int(temp)) ? int(temp) + 1 : int(temp);
         
-        else {
-            answer.push_back(cnt);
-            cur = term[i];
-            cnt = 1;
-        }
+        rests.push_back(rest);
     }
     
-    answer.push_back(cnt);
+    int cur = 1;
+    int cnt = 1;
+    for (int i = 0; i < n && cur < n;) {
+        while ((cur < n) && (rests[i] >= rests[cur])) {
+            cnt++;
+            cur++;
+        }
+        
+        answer.push_back(cnt);
+        cnt = 1;
+        i = cur;
+        cur++;
+        
+        if (i < n && cur >= n) answer.push_back(cnt);
+    }
     
     return answer;
 }
+
+// 7 3 9 3   2 2
+// 15 10 1 1 20 1    4 2
