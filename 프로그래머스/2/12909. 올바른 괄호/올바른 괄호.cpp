@@ -1,23 +1,25 @@
 #include <string>
-#include <iostream>
 #include <stack>
+#include <iostream>
 
 using namespace std;
 
 bool solution(string s) {
-    bool answer = true;
     stack<char> st;
     
-    for (int i = 0; i < s.length(); i++) {
-        if (s[i] == '(') st.push(s[i]);
+    for (auto const& c : s) {
+        if (st.empty()) st.push(c);
         
         else {
-            if (!st.empty()) st.pop();
-            else answer = false;
+            if (st.top() == ')') st.push(c);
+            
+            else {
+                if (c == ')') st.pop();
+                else st.push(c);
+            }
         }
     }
     
-    if (!st.empty()) answer = false;
-
-    return answer;
+    if (!st.empty()) return false;
+    else return true;
 }
