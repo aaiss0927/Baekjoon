@@ -1,60 +1,57 @@
-#include <iostream>
 #include <string>
 #include <vector>
 #include <queue>
+#include <iostream>
 using namespace std;
 
-int get_next_bridge_weights(queue<int>bridge, int next) {
-    int sum = next;
-    
-    while (!bridge.empty()) {
-        sum += bridge.front();
-        bridge.pop();
-    }
-    
-    return sum;
-}
-
-bool exit_condition(queue<int> bridge, queue<int> truck) {
-    while (!bridge.empty()) {
-        if (bridge.front() != 0) return false;
-        bridge.pop();
-    }
-    
-    if (truck.empty()) return true;
-    else return false;
-}
-
-vector<int> my_copy(queue<int> q) {
-    vector<int> temp;
-    
+void q_printer(queue<int> q) {
     while (!q.empty()) {
-        temp.push_back(q.front());
+        cout << q.front() << ' ';
         q.pop();
     }
-    
-    return temp;
+    cout << '\n';
 }
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
     int answer = 0;
-    queue<int> truck;
+    int total = 0;
     queue<int> bridge;
+    queue<int> trucks;
     
-    for (int i = 0; i < truck_weights.size(); i++) truck.push(truck_weights[i]);
     for (int i = 0; i < bridge_length; i++) bridge.push(0);
+    for (int i = 0; i < truck_weights.size(); i++) trucks.push(truck_weights[i]);
     
-    while (!exit_condition(bridge, truck)) {
-        bridge.pop();
-        
-        if (!truck.empty() && get_next_bridge_weights(bridge, truck.front()) <= weight) {
-            bridge.push(truck.front());
-            truck.pop();
+    while (1) {
+        if (total - bridge.front() + trucks.front() <= weight) {
+            total += (trucks.front() - bridge.front());
+            bridge.push(trucks.front()); trucks.pop();
         }
         
-        else bridge.push(0);
+        else {
+            total -= bridge.front();
+            bridge.push(0);
+        }
+        bridge.pop();
         answer++;
+        // cout << answer << " / ";
+        // q_printer(bridge);
+        
+        if (trucks.empty()) {
+            answer += bridge_length;
+            break;
+        }
     }
+    
     
     return answer;
 }
+
+// _ _    7 4 5 6
+// _ 7    4 5 6
+// 7 _    4 5 6
+// _ 4    5 6
+// 4 5    6
+// 5 _    6
+// _ 6
+// 6 _
+// _ _
