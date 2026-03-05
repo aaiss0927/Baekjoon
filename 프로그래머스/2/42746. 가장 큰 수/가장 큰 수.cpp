@@ -1,28 +1,24 @@
-#include <iostream>
 #include <string>
 #include <vector>
-#include <cmath>
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
-bool cmp(int a, int b) {
-    string a_string = to_string(a);
-    string b_string = to_string(b);
-    
-    return (a_string + b_string) > (b_string + a_string);
+bool cmp (const string& num1, const string& num2) {    
+    return num1 + num2 > num2 + num1;
 }
 
 string solution(vector<int> numbers) {
     string answer = "";
-    sort(numbers.begin(), numbers.end(), cmp);
+    vector<string> str_numbers;
     
-    for (int i = 0; i < numbers.size(); i++)
-        answer += to_string(numbers[i]);
+    for (const auto& num : numbers)
+        str_numbers.push_back(to_string(num));
     
-    int idx = 0;
-    while (answer[idx] == '0') idx++;
-    if (idx == answer.length()) idx--;
-    answer = answer.substr(idx, answer.length());
+    sort(str_numbers.begin(), str_numbers.end(), cmp);
+    
+    for (const auto& s_num : str_numbers) answer += s_num;
+    if (answer.front() == '0') return "0";
     
     return answer;
 }
