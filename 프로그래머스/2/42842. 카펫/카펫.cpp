@@ -3,27 +3,28 @@
 #include <cmath>
 using namespace std;
 
-vector<int> quadratic_formula(int a, int b, int c) {
-    int x_1, x_2;
-    x_1 = (-b + pow((pow(b, 2) - 4 * a * c), 0.5)) / (2 * a);
-    x_2 = (-b - pow((pow(b, 2) - 4 * a * c), 0.5)) / (2 * a);
-    if (x_1 < x_2) swap(x_1, x_2);
-    return {x_1, x_2};
+void solve(int b, int y, vector<int>& answer) {
+    int w, h;
+    
+    w = (((b / 2) + 2) + sqrt(pow(((b / 2) + 2), 2) - 4*(y + b))) / 2;
+    h = (((b / 2) + 2) - sqrt(pow(((b / 2) + 2), 2) - 4*(y + b))) / 2;
+    answer = {w, h};
 }
 
 vector<int> solution(int brown, int yellow) {
     vector<int> answer;
-    int w, h;
-    int total = brown + yellow;
-    int a, b, c;
-    a = 1;
-    b = -(brown + 4) / 2;
-    c = total;
-    answer = quadratic_formula(a, b, c);
+    solve(brown, yellow, answer);    
     return answer;
 }
 
-// w * h, w >= h
-// total = w * h = 12
-// yellow = (w - 2) * (h - 2) = wh - 2(w + h) + 4 = 2
-// brown = total - tellow = 2(w + h) - 4 = 10 => w + h = 7
+// 8 <= brown <= 5000 / 1 <= yellow <= 2000000
+// w >= h
+// brown: 테두리 한줄 격자 수 / yellow: 나머지 격자 수
+// brown = 2w + 2h - 4    => w + h = (brown+4) / 2
+// yellow = area - brown = wh - 2w - 2h + 4    => wh = yellow + brown
+// h = (brown+4)/2 - w
+// w(brown+4)/2 - w^2 = yellow + brown
+// w^2 - w(brown+4)/2 + (yellow+brown) = 0
+// w^2 - (0.5b+2)w + (y+b) = 0
+// w = ((0.5b+2) - (((0.5b+2)^2 - 4(y+b))^0.5) / 2
+// h = ((0.5b+2) + (((0.5b+2)^2 - 4(y+b))^0.5) / 2
