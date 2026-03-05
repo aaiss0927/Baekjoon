@@ -2,46 +2,42 @@
 #include <vector>
 using namespace std;
 
-int n;
+bool is_visited[8];
 vector<int> v;
-bool visited[8];
 
-void bt(int k, vector<vector<int>> dungeons, int& answer) {
-    if (v.size() == n) {
-        int cnt = 0;
-        
-        for (int i = 0; i < n; i++) {
-            if (k >= dungeons[v[i]][0]) {
-                k -= dungeons[v[i]][1];
-                cnt++;
-            }
-        }
-        
-        answer = max(answer, cnt);
+void bt(int k, vector<vector<int>> dungeons, int target_len, int& answer) {
+    if (v.size() == target_len) {
+        if (target_len > answer) answer = target_len;
         return;
     }
     
-    for (int i = 0; i < n; i++) {
-        if (visited[i]) continue;
+    for (int i = 0; i < dungeons.size(); i++) {
+        if (is_visited[i]) continue;
+        if (k < dungeons[i][0]) continue;
         
-        visited[i] = true;
         v.push_back(i);
-        bt(k, dungeons, answer);
+        is_visited[i] = true;
+        bt(k - dungeons[i][1], dungeons, target_len, answer);
+        is_visited[i] = false;
         v.pop_back();
-        visited[i] = false;
     }
 }
 
 int solution(int k, vector<vector<int>> dungeons) {
     int answer = -1;
-    n = dungeons.size();
-    bt(k, dungeons, answer);
+    
+    for (int i = dungeons.size(); i > 0; i--)
+        bt(k, dungeons, i, answer);
+    
     return answer;
 }
 
-// 0 1 2
-// 0 2 1
-// 1 0 2
-// 1 2 0
-// 2 0 1
-// 2 1 0
+// 피로도 >= 0
+// 최소 필요 피로도, 소모 피로도
+// k: 현재 피로도  /  1 <= k <= 5000
+// dungeons: {{최소 필요 피로도, 소모 피로도}, ,,, ,}
+// 1 <= dungeons.size() <= 8  /  1 <= 최소 필요 피로도 <= 소모 피로도 <= 1000
+// dungeons[i] = dungeons[j] 가능
+// result: 유저가 탐험할 수 있는 최대 던전 수
+// k >= 최소 필요 피로도인 경우 탐험 가능
+// 백트래킹 완탐
