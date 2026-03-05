@@ -1,39 +1,33 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
 using namespace std;
 
-vector<char> vowel = {'A', 'E', 'I', 'O', 'U'};
-vector<string> words;
-vector<char> v;
+vector<int> v;
+vector<char> dict = {'A', 'E', 'I', 'O', 'U'};
+int answer, temp;
 
-void bt(int len) {
-    if (v.size() == len) {
-        string str = "";
-        
-        for (int i = 0; i < len; i++)
-            str += v[i];
-        
-        words.push_back(str);
-        return;
-    }
+// 0, 00, 000, 0000, 00000, 00001, 00002, ,,, 10000, ,,, 44444
+void bt(string word, int cnt) {
+    if (cnt > 5) return;
+    
+    temp++;
+    string str = "";
+    for (int i = 0; i < cnt; i++) str += dict[v[i]];
+    if (word == str) answer = temp;
     
     for (int i = 0; i < 5; i++) {
-        v.push_back(vowel[i]);
-        bt(len);
+        v.push_back(i);
+        bt(word, cnt + 1);
         v.pop_back();
     }
 }
 
 int solution(string word) {
-    int answer = 0;
-    
-    for (int i = 1; i <= 5; i++)
-        bt(i);
-    
-    sort(words.begin(), words.end());
-    answer = lower_bound(words.begin(), words.end(), word) - words.begin();
-    answer++;
+    temp = -1;
+    bt(word, 0);
     return answer;
 }
+
+// 전체 가짓수: 5^5 => 백트래킹 가능
+// 한번 쓴 단어 가능, 사전순이므로 bt(cur), i >= cur 조건 추가
