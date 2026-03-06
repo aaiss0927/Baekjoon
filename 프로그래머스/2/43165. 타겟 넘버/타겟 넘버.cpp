@@ -1,28 +1,31 @@
 #include <string>
 #include <vector>
+#include <iostream>
 using namespace std;
 
-vector<int> numbers;
-vector<int> v;
-int target;
-int total;
-
-void bt(int n, int sum) {
-    if (n == numbers.size()) {
-        if (sum == target) total++;
+void dfs(vector<int>& numbers, int idx, int sum, int target, int& answer) {
+    if (idx >= numbers.size()) {
+        if (sum == target) answer++;
         return;
     }
     
-    bt(n + 1, sum + numbers[n]);
-    bt(n + 1, sum - numbers[n]);
+    int cur = numbers[idx];
+    dfs(numbers, idx + 1, sum + cur, target, answer);
+    dfs(numbers, idx + 1, sum - cur, target, answer);
 }
 
-int solution(vector<int> inp_numbers, int inp_target) {
+int solution(vector<int> numbers, int target) {
     int answer = 0;
-    numbers = inp_numbers;
-    target = inp_target;
-    bt(1, numbers[0]);
-    bt(1, -numbers[0]);
-    answer = total;
+    dfs(numbers, 0, 0, target, answer);
     return answer;
 }
+
+// 2 <= numbers.size() <= 20
+// 1 <= numbers[i] <= 50
+// 1 <= target <= 1000
+// 각 numbers[i] 더하거나 빼서 target 만들기
+// return: target 만드는 방법의 수
+
+// 4
+// 1     -1
+// 2 -2   2 -2
